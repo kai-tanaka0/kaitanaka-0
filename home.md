@@ -1,4 +1,4 @@
-[Home](home.md) [Voicebank Downloads](vbdl.md) [Terms of Use](termsofuse.md) [About](abt.md)
+[Home](home.md) | [Voicebank Downloads](vbdl.md) | [Terms of Use](termsofuse.md) | [About](abt.md)
 ---
 # Kai Tanaka website!
 
