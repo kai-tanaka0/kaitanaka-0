@@ -1,4 +1,4 @@
-name: Build Android APK (Capacitor)
+name: Build Android APK (Capacitor with Icons)
 on:
   push:
     branches: [ main, master ]
@@ -14,7 +14,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '21' # Fixed! Upgraded from 17 to 21 to match Capacitor's requirements
+        java-version: '21'
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
@@ -29,21 +29,21 @@ jobs:
         # 1. Initialize node package configuration
         npm init -y
         
-        # 2. Install Capacitor
+        # 2. Install Capacitor and the automated asset tool
         npm install @capacitor/core @capacitor/cli @capacitor/android
+        npm install -D @capacitor/assets
         
         # 3. Create isolated asset directory 
         mkdir dist
         
         # 4. Copy website files safely into distribution folder
-        cp -r index.html photos audio dist/ 2>/dev/null || true
+        cp -r index.html photos ja audio dist/ 2>/dev/null || true
         cp -r *.html dist/ 2>/dev/null || true
 
         # 5. Initialize Capacitor configuration
         npx cap init "Kai Tanaka" "it.undo.kanaka.kaitanaka" --web-dir=dist
         
         # 6. Append secure protocol routing configurations
-        echo '{"server": {"androidScheme": "http"}}' > capacitor.config.json.tmp
         node -e "
           const fs = require('fs');
           const base = JSON.parse(fs.readFileSync('capacitor.config.json'));
@@ -51,8 +51,18 @@ jobs:
           fs.writeFileSync('capacitor.config.json', JSON.stringify(base, null, 2));
         "
 
-        # 7. Inject Android native platform and build
+        # 7. Inject Android native platform
         npx cap add android
+        
+        # 8. Automatically generate and inject the app icons!
+        # This reads your icon.png and formats it perfectly for Android
+        if [ -f "icon.png" ]; then
+          mkdir -p assets
+          cp icon.png assets/icon.png
+          npx capacitor-assets generate --android
+        fi
+
+        # 9. Sync changes and build the signed debug APK
         npx cap sync android
         cd android && ./gradlew assembleDebug
 
