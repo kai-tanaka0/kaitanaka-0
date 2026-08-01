@@ -37,7 +37,7 @@ jobs:
         mkdir dist
         
         # 4. Copy website files safely into distribution folder
-        cp -r index.html photos ja audio dist/ 2>/dev/null || true
+        cp -r index.html photos audio dist/ 2>/dev/null || true
         cp -r *.html dist/ 2>/dev/null || true
 
         # 5. Initialize Capacitor configuration
