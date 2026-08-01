@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="it.undo.kanaka.kaitanaka" version="1.0.0" xmlns="http://w3.org" xmlns:cdv="http://apache.org">
+    <name>Kai Tanaka</name>
+    <description>Official app for the UTAU character Kai Tanaka.</description>
+    <author email="your-email@example.com" href="https://undo.it">Your Name &amp; Friend</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="KeepRunning" value="true" />
+</widget>
