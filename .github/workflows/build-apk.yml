@@ -29,39 +29,39 @@ jobs:
         # 1. Initialize node package configuration
         npm init -y
         
-        # 2. Install Capacitor and the automated asset tool
+        # 2. Install Capacitor and the asset engine
         npm install @capacitor/core @capacitor/cli @capacitor/android
         npm install -D @capacitor/assets
         
-        # 3. Create isolated asset directory 
+        # 3. Create isolated web asset directory 
         mkdir dist
         
-        # 4. Copy website files safely into distribution folder
-        cp -r index.html photos audio dist/ 2>/dev/null || true
+        # 4. Copy website assets cleanly into the distribution folder
+        cp -r index.html photos ja audio dist/ 2>/dev/null || true
         cp -r *.html dist/ 2>/dev/null || true
 
-        # 5. Initialize Capacitor configuration (Creates the config file!)
-        npx cap init "Kai Tanaka" "it.undo.kanaka.kaitanaka" --web-dir=dist
-        
-        # 6. Safe step position: Modify the config file after it has been created
-        node -e "
-          const fs = require('fs');
-          const base = JSON.parse(fs.readFileSync('capacitor.config.json'));
-          base.server = { androidScheme: 'http', allowNavigation: ['*'] };
-          fs.writeFileSync('capacitor.config.json', JSON.stringify(base, null, 2));
-        "
+        # 5. MANUALLY CREATE THE CONFIG FILE (No more ENOENT crashes!)
+        echo '{
+          "appId": "it.undo.kanaka.kaitanaka",
+          "appName": "Kai Tanaka 2App,
+          "webDir": "dist",
+          "server": {
+            "androidScheme": "http",
+            "allowNavigation": ["*"]
+          }
+        }' > capacitor.config.json
 
-        # 7. Inject Android native platform
+        # 6. Inject the Android native scaffolding
         npx cap add android
         
-        # 8. Automatically generate and inject the app icons
+        # 7. Automatically format and generate the app icons
         if [ -f "icon.png" ]; then
           mkdir -p assets
           cp icon.png assets/icon.png
           npx capacitor-assets generate --android
         fi
 
-        # 9. Sync changes and build the signed debug APK
+        # 8. Sync web resources and build the APK
         npx cap sync android
         cd android && ./gradlew assembleDebug
 
