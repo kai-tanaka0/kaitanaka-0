@@ -1,0 +1,44 @@
+name: Build Android APK
+on:
+  push:
+    branches: [ main, master ] # Activates whenever you push to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Set up Java/JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-size: 20
+
+    - name: Install Cordova & Build App
+      run: |
+        npm install -g cordova
+        cordova create build_tmp it.undo.kanaka.kaitanaka "Kai Tanaka"
+        # Move your site structure into Cordova's target web folder
+        rm -rf build_tmp/www/*
+        cp -r index.html photos audio build_tmp/www/ 2>/dev/null || cp -r * build_tmp/www/
+        cp config.xml build_tmp/
+        cd build_tmp
+        cordova platform add android
+        cordova build android --no-telemetry
+
+    - name: Upload Finished APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: Kai-Tanaka-App
+        path: build_tmp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+        
