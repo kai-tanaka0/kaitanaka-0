@@ -6,4 +6,9 @@
     <content src="index.html" />
     <access origin="*" />
     <preference name="KeepRunning" value="true" />
+        <!-- Fixes the local server loading error -->
+    <preference name="AndroidInsecureFileModeEnabled" value="true" />
+    <preference name="MixedContentMode" value="0" />
+    <preference name="scheme" value="https" />
+    <preference name="hostname" value="localhost" />
 </widget>
