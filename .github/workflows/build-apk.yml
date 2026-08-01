@@ -14,7 +14,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '17'
+        java-version: '21' # Fixed! Upgraded from 17 to 21 to match Capacitor's requirements
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
@@ -26,23 +26,23 @@ jobs:
 
     - name: Build App with Capacitor
       run: |
-        # 1. Initialize an empty node package configuration
+        # 1. Initialize node package configuration
         npm init -y
         
-        # 2. Install Capacitor structural requirements
+        # 2. Install Capacitor
         npm install @capacitor/core @capacitor/cli @capacitor/android
         
-        # 3. Create a clean web asset target directory 
+        # 3. Create isolated asset directory 
         mkdir dist
         
-        # 4. Copy your site files safely into the isolated distribution folder
+        # 4. Copy website files safely into distribution folder
         cp -r index.html photos audio dist/ 2>/dev/null || true
         cp -r *.html dist/ 2>/dev/null || true
 
-        # 5. Initialize Capacitor configuration via CLI instructions
+        # 5. Initialize Capacitor configuration
         npx cap init "Kai Tanaka" "it.undo.kanaka.kaitanaka" --web-dir=dist
         
-        # 6. Append local file protocol compatibility configurations
+        # 6. Append secure protocol routing configurations
         echo '{"server": {"androidScheme": "http"}}' > capacitor.config.json.tmp
         node -e "
           const fs = require('fs');
@@ -51,7 +51,7 @@ jobs:
           fs.writeFileSync('capacitor.config.json', JSON.stringify(base, null, 2));
         "
 
-        # 7. Inject Android native container and compile gradle artifacts
+        # 7. Inject Android native platform and build
         npx cap add android
         npx cap sync android
         cd android && ./gradlew assembleDebug
@@ -61,4 +61,4 @@ jobs:
       with:
         name: Kai-Tanaka-App
         path: android/app/build/outputs/apk/debug/app-debug.apk
-        
+
