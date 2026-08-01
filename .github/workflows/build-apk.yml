@@ -43,7 +43,7 @@ jobs:
         # 5. MANUALLY CREATE THE CONFIG FILE (No more ENOENT crashes!)
         echo '{
           "appId": "it.undo.kanaka.kaitanaka",
-          "appName": "Kai Tanaka 2App,
+          "appName": "Kai Tanaka",
           "webDir": "dist",
           "server": {
             "androidScheme": "http",
