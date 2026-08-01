@@ -40,10 +40,10 @@ jobs:
         cp -r index.html photos audio dist/ 2>/dev/null || true
         cp -r *.html dist/ 2>/dev/null || true
 
-        # 5. Initialize Capacitor configuration
+        # 5. Initialize Capacitor configuration (Creates the config file!)
         npx cap init "Kai Tanaka" "it.undo.kanaka.kaitanaka" --web-dir=dist
         
-        # 6. Append secure protocol routing configurations
+        # 6. Safe step position: Modify the config file after it has been created
         node -e "
           const fs = require('fs');
           const base = JSON.parse(fs.readFileSync('capacitor.config.json'));
@@ -54,8 +54,7 @@ jobs:
         # 7. Inject Android native platform
         npx cap add android
         
-        # 8. Automatically generate and inject the app icons!
-        # This reads your icon.png and formats it perfectly for Android
+        # 8. Automatically generate and inject the app icons
         if [ -f "icon.png" ]; then
           mkdir -p assets
           cp icon.png assets/icon.png
