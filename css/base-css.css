@@ -28,3 +28,17 @@ a {
     color: #FF0072;
     font-family: "Courier New", Courier, monospace;
 }
+
+.paralsol {
+    background-color: #42404B;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.paralsol p,
+.paralsol td {
+    color: #F4F2FF;
+}
+
+.paralsol h1 {
+    color: #685F8A;
+}
