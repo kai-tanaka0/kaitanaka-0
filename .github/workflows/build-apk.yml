@@ -1,7 +1,7 @@
 name: Build Android APK
 on:
   push:
-    branches: [ main, master ] # Activates whenever you push to main
+    branches: [ main, master ]
 
 jobs:
   build:
@@ -22,16 +22,26 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-size: 20
+        node-version: '22'
 
     - name: Install Cordova & Build App
       run: |
         npm install -g cordova
+        
+        # 1. Create a pristine, isolated Cordova app setup first
         cordova create build_tmp it.undo.kanaka.kaitanaka "Kai Tanaka"
-        # Move your site structure into Cordova's target web folder
+        
+        # 2. Put your exact config settings into the app project root
+        cp config.xml build_tmp/config.xml
+        
+        # 3. Wipe out Cordova's stock placeholder files
         rm -rf build_tmp/www/*
-        cp -r index.html photos audio build_tmp/www/ 2>/dev/null || cp -r * build_tmp/www/
-        cp config.xml build_tmp/
+        
+        # 4. Copy all website files, photos, and audio safely into the app asset folder
+        cp -r index.html photos audio build_tmp/www/ 2>/dev/null || true
+        cp -r *.html build_tmp/www/ 2>/dev/null || true
+        
+        # 5. Compile the Android app bundle cleanly
         cd build_tmp
         cordova platform add android
         cordova build android --no-telemetry
