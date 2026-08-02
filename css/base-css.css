@@ -29,6 +29,8 @@ a {
     font-family: "Courier New", Courier, monospace;
 }
 
+
+/*.paralsol is the Paralsol theme (your theme)*/
 .paralsol {
     background-color: #42404B;
     font-family: "Courier New", Courier, monospace;
@@ -42,3 +44,37 @@ a {
 .paralsol h1 {
     color: #685F8A;
 }
+
+/*.xsprod is Subspace-P!!*/
+
+.xsprod {
+    background-color: #846E78;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.xsprod p,
+.xsprod td {
+    color: #FFC7E2;
+}
+
+.xsprod h1 {
+    color: #FF007B;
+}
+
+/* Extra toggles (you may need to turn off/hash out some of the before theme configs*/
+
+/*Configurations for Light theme, for Subspace-P in specific*/
+
+/* .xsprod {
+    color: #FFE9F3;
+    font-family: "Courier New", Courier, monospace;
+    }*/
+    
+/*.xsprod p,
+.xsprod td {
+    color: #B590A2;
+    }*/
+    
+/*.xsprod h1 {
+    color: #FF4EA3;
+    }*/
